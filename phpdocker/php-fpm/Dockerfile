@@ -1,23 +1,25 @@
-FROM phpdockerio/php7-fpm:latest
+FROM php:7.0-fpm
 WORKDIR "/application"
 
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive
 
+# apt update
+RUN apt-get update
 
 # Install git
-RUN apt-get update \
-    && apt-get -y install git \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apt-get -y install git
+
+# Install Composer dependices
+RUN apt-get -y install curl nano && \
+        curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 
 # Install Composer
-RUN apt-get update \
-    && apt-get -y install curl php-cli php-mbstring git unzip \
-    && apt-get -y install composer \
-    && composer \
-    && composer install
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install Yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
-    && apt-get update; apt-get -y install yarn
+# Install app dependencies
+RUN COMPOSER_ALLOW_SUPERUSER=1 /usr/local/bin/composer install --prefer-source --no-interaction
+
+# Cleanup
+RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*

@@ -42,9 +42,10 @@ class AddController extends Controller
                 $newAddress->setPicture($fileName);
             }
 
-            $this->addFlash('success', 'Address added successfully!');
             $em->persist($newAddress);
             $em->flush();
+
+            $this->addFlash('success', 'Address added successfully!');
             return $this->redirectToRoute('homepage');
 
         }elseif($form->isSubmitted() && $form->isValid() === false){

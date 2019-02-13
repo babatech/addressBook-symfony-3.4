@@ -8,13 +8,17 @@ A sample project for Address with symfony 3.4, Sqlite, Doctrine
 
 #### With Symfony console 
 
+* Clone the Repository 
 * cd to project directory
-* php bin/console server:run
+* Run command "composer install"
+* Run command "php bin/console server:run"
 * Check http://localhost:8000/
 
-#### With docker (in progress)
+#### With docker
 
+* Clone the Repository 
 * cd to project directory
-* docker-compose build
-* docker-compose up
-* http://localhost:8000/
+* Run command "composer install"
+* Run command "docker-compose build"
+* Run command "docker-compose up"
+* Check http://localhost:8000/

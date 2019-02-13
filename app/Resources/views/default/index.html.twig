@@ -2,6 +2,9 @@
 
 {% block body %}
     <div class="text-center">
+        {% if addresses is empty %}
+            <p class="text-center">Address book is empty</p>
+        {% endif %}
         {% for address in addresses  %}
 
                 <div class="card bg-primary address-card ">
